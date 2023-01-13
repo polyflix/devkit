@@ -1,0 +1,103 @@
+repositories:
+  - name: polyflix
+    url: https://polyflix.github.io/helm-charts
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 600
+
+releases:
+  - name: nginx
+    chart: ingress-nginx/ingress-nginx
+
+  - name: kafka
+    chart: bitnami/kafka
+    version: 19.0.0
+    values:
+      - "./helm/infra/kafka.yml"
+
+  - name: minio
+    chart: bitnami/minio
+    version: 11.10.8
+    values:
+      - "./helm/infra/minio.yml"
+
+  - name: postgres
+    chart: bitnami/postgresql
+    version: 11.9.11
+    values:
+      - "./helm/infra/postgres.yml"
+
+  - name: keycloak
+    chart: bitnami/keycloak
+    version: 13.0.0
+    values:
+      - "./helm/infra/keycloak.yml"
+    needs:
+      - postgres
+      - kafka
+
+  - name: video
+    chart: polyflix/service
+    values:
+      - "./helm/app/video.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka
+
+  - name: user
+    chart: polyflix/service
+    values:
+      - "./helm/app/user.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka
+
+  - name: search
+    chart: polyflix/service
+    values:
+      - "./helm/app/search.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka
+
+  - name: quizz
+    chart: polyflix/service
+    values:
+      - "./helm/app/quizz.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka
+
+  - name: gateway
+    chart: polyflix/service
+    values:
+      - "./helm/app/gateway.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka
+
+  - name: catalog
+    chart: polyflix/service
+    values:
+      - "./helm/app/catalog.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka

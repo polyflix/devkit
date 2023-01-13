@@ -1,0 +1,74 @@
+fullnameOverride: keycloak
+replicas: 1
+
+command:
+  - /opt/keycloak/bin/kc.sh
+  - start
+  - --import-realm
+  - --optimized
+  - --proxy edge
+  - --hostname-url http://keycloak:8080
+  - --hostname-admin-url http://keycloak:8080
+  - --db-url jdbc:postgresql://postgres:5432/keycloak
+  - --db-username postgres
+  - --db-password polyflix
+  - --db-schema public
+
+image:
+  registry: ghcr.io
+  repository: polyflix/keycloak
+  tag: 20
+
+auth:
+  adminUser: polyflix
+  adminPassword: polyflix
+
+extraEnvVars:
+  - name: KEYCLOAK_ADMIN
+    value: polyflix
+  - name: KC_HEALTH_ENABLED
+    value: "true"
+  - name: KC_DB_URL
+    value: jdbc:postgresql://postgres/keycloak
+  - name: KEYCLOAK_DATABASE_PORT
+    value: "5432"
+  - name: KEYCLOAK_DATABASE_NAME
+    value: keycloak
+  - name: KEYCLOAK_DATABASE_SCHEMA
+    value: public
+  - name: KAFKA_BOOTSTRAP_SERVERS
+    value: kafka-0.kafka-headless:9092
+
+postgresql:
+  enabled: false
+
+externalDatabase:
+  host: postgres
+  port: 5432
+  user: postgres
+  database: keycloak
+  password: polyflix
+
+service:
+  type: ClusterIP
+  ports:
+    http: 8080
+
+extraVolumeMounts:
+  - name: realm
+    mountPath: /opt/keycloak/data/import
+
+extraVolumes:
+  - name: realm
+    configMap:
+      name: keycloak-realm
+      items:
+        - key: realm.json
+          path: realm.json
+
+ingress:
+  enabled: true
+  hostname: keycloak
+  ingressClassName: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"

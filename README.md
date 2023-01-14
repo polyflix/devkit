@@ -5,7 +5,8 @@ This repository contain everything needed to run a development environment for P
 ## Requirements
 
 - [devspace](https://www.devspace.sh/docs/getting-started/introduction?_gl=1*1qr3cz2*_ga*MTUwMzk2NzA2Mi4xNjczNDM3MDQ5*_ga_4RQQZ3WGE9*MTY3MzQ0MjM2Ny4yLjEuMTY3MzQ0MjM3OC40OS4wLjA.)
-- [Helmfile](https://github.com/roboll/helmfile)
+- [Helmfile](https://github.com/helmfile/helmfile)
+- [Helm-diff](https://github.com/databus23/helm-diff)
 
 ## Usage
 

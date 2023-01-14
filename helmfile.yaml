@@ -5,6 +5,8 @@ repositories:
     url: https://charts.bitnami.com/bitnami
   - name: ingress-nginx
     url: https://kubernetes.github.io/ingress-nginx
+  - name: ory
+    url: https://k8s.ory.sh/helm/charts
 
 helmDefaults:
   wait: true
@@ -32,6 +34,12 @@ releases:
     version: 11.9.11
     values:
       - "./helm/infra/postgres.yml"
+
+  - name: keto
+    chart: ory/keto
+    version: 0.26.6
+    values:
+      - "./helm/infra/keto.yml"
 
   - name: keycloak
     chart: bitnami/keycloak

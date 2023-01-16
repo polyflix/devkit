@@ -1,0 +1,23 @@
+fullnameOverride: search
+
+image:
+  repository: ghcr.io/polyflix/search
+  tag: main
+
+extraEnvVars:
+  - name: SERVER_PORT
+    value: 8080
+  - name: SPRING_PROFILES_ACTIVE
+    value: dev
+  - name: SPRING_ELASTICSEARCH_URIS
+    value: http://elasticsearch-es-http:9200
+  - name: SPRING_KAFKA_BOOTSTRAP_SERVERS
+    value: kafka-0.kafka-headless:9092
+
+probes:
+  liveness:
+    path: /actuator/health
+    initialDelaySeconds: 120
+  readiness:
+    path: /actuator/health
+    initialDelaySeconds: 120

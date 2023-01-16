@@ -1,0 +1,25 @@
+ingress:
+  read:
+    enabled: true
+    className: "nginx"
+    annotations: {}
+    hosts:
+      - host: keto.polyflix.local
+        paths:
+          - path: /read
+            pathType: Prefix
+    tls: []
+  write:
+    enabled: true
+    className: "nginx"
+    annotations:
+    hosts:
+      - host: keto.polyflix.local
+        paths:
+          - path: /write
+            pathType: Prefix
+    tls: []
+
+keto:
+  config:
+    dsn: memory

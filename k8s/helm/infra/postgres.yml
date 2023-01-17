@@ -1,0 +1,8 @@
+fullnameOverride: postgres
+global:
+  postgresql:
+    auth:
+      postgresPassword: polyflix
+primary:
+  persistence:
+    size: 1Gi

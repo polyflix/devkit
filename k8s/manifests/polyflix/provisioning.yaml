@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: provisioning
+spec:
+  backoffLimit: 5
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: scripts
+          configMap:
+            name: provisioning
+      containers:
+        - name: provisioning
+          image: wurstmeister/kafka:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - |
+              apt update -y
+              apt install -y postgresql-client
+              bash /etc/scripts/provisioning.sh
+          volumeMounts:
+            - name: scripts
+              mountPath: /etc/scripts

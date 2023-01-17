@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: init-db
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: init-db
+          image: bitnami/postgresql:14.2.0-debian-10-r74
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PGHOST
+              value: postgres
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              value: polyflix
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until pg_isready; do
+                echo "Postgres not ready... retrying in 2s"
+                sleep 1
+              done
+              
+              createdb video
+              createdb usermanagement
+              createdb catalog
+              createdb quizz
+              createdb keycloak
+              
+              psql -d quizz -c 'CREATE EXTENSION "uuid-ossp";'

@@ -1,0 +1,28 @@
+fullnameOverride: gateway
+image:
+  repository: ghcr.io/polyflix/gateway
+  tag: main
+
+extraEnvVars:
+  - name: SERVER_PORT
+    value: 8080
+  - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_OPAQUETOKEN_INTROSPECTION_URI
+    value: http://keycloak/realms/Polyflix/protocol/openid-connect/token/introspect
+  - name: POLYFLIX_SERVICES_USER
+    value: http://user/
+  - name: POLYFLIX_SERVICES_VIDEO
+    value: http://video/
+  - name: POLYFLIX_SERVICES_CATALOG
+    value: http://catalog/
+  - name: POLYFLIX_SERVICES_SEARCH
+    value: http://search/
+  - name: POLYFLIX_SERVICES_QUIZZ
+    value: http://quizz/
+
+probes:
+  liveness:
+    path: /actuator/health
+    initialDelaySeconds: 60
+  readiness:
+    path: /actuator/health
+    initialDelaySeconds: 60

@@ -1,0 +1,37 @@
+fullnameOverride: video
+
+image:
+  repository: ghcr.io/polyflix/video
+  tag: main
+
+extraEnvVars:
+  - name: "NEST_PROFILE"
+    value: dev
+  - name: "NEST_SERVER_PORT"
+    value: 8080
+  - name: "NEST_KAFKA_CLIENT_BROKERS"
+    value: kafka-0.kafka-headless:9092
+  - name: "NEST_MINIO_ENVIRONMENT_EXTERNAL_HOST"
+    value: minio
+  - name: "NEST_MINIO_ENVIRONMENT_EXTERNAL_PORT"
+    value: 8080
+  - name: "NEST_MINIO_ENVIRONMENT_EXTERNAL_SSL"
+    value: false
+  - name: NEST_DATABASE_PSQL_URL
+    value: "postgres://postgres:polyflix@postgres:5432/video"
+  - name: NEST_MINIO_CREDENTIALS_ACCESS
+    value: "polyflix"
+  - name: NEST_MINIO_CREDENTIALS_SECRET
+    value: "polyflix"
+
+migrations:
+  enabled: true
+  extraEnvVars:
+    - name: POSTGRES_URL
+      value: "postgres://postgres:polyflix@postgres:5432/video"
+
+probes:
+  liveness:
+    path: /v2.0.0/health
+  readiness:
+    path: /v2.0.0/health

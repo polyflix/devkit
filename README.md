@@ -14,7 +14,7 @@ When dealing with `local` engine for the Kubernetes cluster, performance may be 
 - [helm](https://helm.sh/)
 - [Helmfile](https://github.com/helmfile/helmfile)
 - [Helm-diff](https://github.com/databus23/helm-diff)
-
+- [Terraform](https://developer.hashicorp.com/terraform/downloads?product_intent=terraform)
 - [k3d](https://k3d.io/v5.4.6/) (**optional**, only when dealing with `local` engine)
 - [devspace](https://www.devspace.sh/docs/getting-started/introduction) (**optional**, only for Kubernetes development)
 

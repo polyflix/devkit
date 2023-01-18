@@ -4,7 +4,7 @@ locals {
 
 resource "openstack_compute_keypair_v2" "this" {
   name       = local.environment
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file(var.pub_ssh_key)
 }
 
 resource "openstack_compute_instance_v2" "this" {

@@ -1,0 +1,24 @@
+fullnameOverride: web-bff
+image:
+  repository: ghcr.io/polyflix/web-bff
+  tag: main
+
+extraEnvVars:
+  - name: APP_PORT
+    value: 8080
+  - name: APP_SERVICES_USER
+    value: http://user/
+  - name: APP_SERVICES_VIDEO
+    value: http://video/
+  - name: APP_SERVICES_CATALOG
+    value: http://catalog/
+  - name: APP_SERVICES_SEARCH
+    value: http://search/
+  - name: APP_SERVICES_QUIZZ
+    value: http://quizz/
+
+probes:
+  liveness:
+    path: /healthz
+  readiness:
+    path: /healthz

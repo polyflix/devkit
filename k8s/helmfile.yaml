@@ -100,6 +100,16 @@ releases:
       - postgres
       - kafka
 
+  - name: web-bff
+    chart: polyflix/service
+    values:
+      - "./helm/app/web-bff.yml"
+    needs:
+      - keycloak
+      - minio
+      - postgres
+      - kafka
+
   - name: catalog
     chart: polyflix/service
     values:

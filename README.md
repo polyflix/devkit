@@ -57,7 +57,7 @@ Below are the applications that are exposed :
 To make your developer journey for Polyflix easier, you can add an alias to the `devspace` command to always use the good devkit cluster : 
 
 ```bash
-echo "alias devspace=\"export KUBECONFIG=/absolute/path/to/devkit/outputs/k8s.yml\" && devspace" >> ~/.zshrc
+echo "alias devspace=\"KUBECONFIG=/absolute/path/to/devkit/outputs/k8s.yml\" devspace" >> ~/.zshrc
 ```
 
 Every project has a `devspace.yaml` file. To enable development in the cluster, just run the command : 

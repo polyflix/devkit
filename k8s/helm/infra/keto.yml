@@ -19,7 +19,17 @@ ingress:
           - path: /write
             pathType: Prefix
     tls: []
+deployment:
+  extraVolumeMounts:
+    - name: namespaces
+      mountPath: /etc/keto-namespaces/
+  extraVolumes:
+    - name: namespaces
+      configMap:
+        name: keto-namespaces
 
 keto:
   config:
     dsn: memory
+    namespaces:
+      location: file:///etc/keto-namespaces/namespaces.keto.ts

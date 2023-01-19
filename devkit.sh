@@ -36,6 +36,9 @@ function install() {
   kubectl $kubectl_args apply -f ./k8s/manifests/eck || true
   kubectl $kubectl_args apply -f ./k8s/manifests/postgres || true
 
+  # Custom needed tests
+  kubectl $kubectl_args apply -f ./k8s/manifests/keto/
+
   # We need to instal Polyflix before running the provisioning step
   KUBECONFIG=$kubeconfig helmfile --kube-context="$K8S_CONTEXT_NAME" --file ./k8s/helmfile.yaml apply
 

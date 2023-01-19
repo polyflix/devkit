@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keto-namespaces
+data:
+  namespaces.keto.ts: |
+    class User implements Namespace { }
+    class Role implements Namespace {
+      related: {
+        members: User[]
+      }
+      permits = {
+        member: (ctx: Context): boolean =>
+          this.related.members.includes(ctx.subject)
+      }
+    }
+    class Video implements Namespace {
+      related: {
+        viewers: (User | Role)[]
+        owners: (User | Role)[]
+      }
+      permits = {
+        view: (ctx: Context): boolean =>
+          this.related.viewers.includes(ctx.subject) ||
+          this.related.owners.includes(ctx.subject),
+        edit: (ctx: Context): boolean =>
+          this.related.owners.includes(ctx.subject),
+        delete: (ctx: Context) =>
+          this.related.owners.includes(ctx.subject)
+      }
+    }
+
